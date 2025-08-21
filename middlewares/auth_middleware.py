@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 
-from ..accounts.models import Session
+from accounts.models import Session
+
 
 class AuthMiddleware:
     def __init__(self,get_response):
