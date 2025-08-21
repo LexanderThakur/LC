@@ -13,12 +13,12 @@ async function register() {
         user_password: user_password,
       }),
     });
-    if (!response.ok) {
-      console.log("Server error");
-      return;
-    }
 
     const result = await response.json();
+    if (!response.ok) {
+      alert(result.error || "error");
+      return;
+    }
 
     if (result.message == "success") {
       localStorage.setItem("session_token", result.token);
@@ -34,8 +34,8 @@ async function register() {
 // Login User
 
 async function login() {
-  const user_email = document.querySelector("#l_user");
-  const user_password = document.querySelector("#l_pass");
+  const user_email = document.querySelector("#l_user").value;
+  const user_password = document.querySelector("#l_pass").value;
 
   try {
     const response = await fetch("/login", {

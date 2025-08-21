@@ -51,12 +51,14 @@ def login(request):
             return JsonResponse({"error":"wrong password"},status=400)
 
         # remove old token
-        old_token=Session.objects.filter(user_email=user_email).first()
+        user=User.objects.get(user_email=user_email)
+
+        old_token=Session.objects.filter(user_email=user).first()
         if old_token:
             old_token.delete()
 
         token=str(uuid.uuid4())
-        Session.objects.create(user_email=user_email,token=token)
+        Session.objects.create(user_email=user,token=token)
 
         return JsonResponse({"message":"success","token":token},status=200)
     else:
