@@ -12,7 +12,7 @@ LEETCODE_GRAPHQL_URL="https://leetcode.com/graphql"
 
 
 def page(request):
-    return render(request,'index.html')
+    return render(request,'temp.html')
 
 
 
