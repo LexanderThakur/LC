@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from accounts.models import Links
 # Create your views here.
 import requests
 from urllib.parse import urlparse
@@ -23,6 +24,26 @@ def get_slug(url):
         return path_parsed[1]
 
     return None
+
+
+def save_data(data,user,url):
+  topics=[]
+  temp=data.get("data").get("question")
+  for i in temp.get("topicTags"):
+    topics.append(i.get("name"))
+  
+  Links.objects.create(
+    title=temp.get("title"),
+    title_slug=temp.get("titleSlug"),
+    difficulty=temp.get("difficulty"),
+    tags=topics,
+    url=url,
+    number=temp.get("questionId"),
+    user=user
+  )
+
+  
+
 
 @csrf_exempt
 def submit_link(request):
@@ -62,7 +83,12 @@ def submit_link(request):
 
 
     data=response.json()
-    return JsonResponse({"message":data},status=200)
+
+    save_data(data,user,link)
+
+    
+
+    return JsonResponse({"message":data.get("data").get("question")},status=200)
 
 
 
