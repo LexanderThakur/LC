@@ -50,7 +50,7 @@
         justify-content: flex-start;
         align-items: center;
         height: auto;
-        min-height: 60vh;
+        min-height: 40vh;
         text-align: center;
         flex-direction: column;
         padding: 60px 20px 20px;
@@ -66,6 +66,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        margin-bottom: 40px;
       }
 
       .input-box input {
@@ -96,6 +97,69 @@
         background-color: #000;
         color: #fff;
       }
+
+      /* Question Card */
+      .question-card {
+        width: 80%;
+        max-width: 700px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: left;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .question-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .difficulty {
+        display: inline-block;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+      }
+
+      .difficulty.easy {
+        color: #21a453;
+        background: #e6f7f1;
+      }
+
+      .difficulty.medium {
+        color: #e6a700;
+        background: #fff6e0;
+      }
+
+      .difficulty.hard {
+        color: #d93025;
+        background: #ffeaea;
+      }
+
+      .topics {
+        margin-bottom: 10px;
+      }
+
+      .topic-tag {
+        display: inline-block;
+        background: #f2f2f2;
+        color: #333;
+        padding: 4px 8px;
+        margin: 2px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+
+      .status {
+        font-size: 0.9rem;
+        font-style: italic;
+        color: #21a453;
+      }
     </style>
   </head>
   <body>
@@ -115,10 +179,26 @@
           id="link"
           placeholder="Paste LeetCode question link..."
         />
-        <button onclick="submit_link()">Add to Backlog</button>
+        <button onclick="submit_lin()">Add to Backlog</button>
       </div>
-      <p>hello</p>
+
+      <!-- Placeholder for Question Data -->
+      <div class="question-card">
+        <!-- Line 1: Question number + title -->
+        <div class="question-title">2. Add Two Numbers</div>
+
+        <!-- Line 2: Difficulty -->
+        <div class="difficulty medium">Medium</div>
+
+        <!-- Line 3: Topics -->
+        <div class="topics">
+          <span class="topic-tag">Linked List</span>
+          <span class="topic-tag">Math</span>
+        </div>
+
+        <!-- Line 4: Status -->
+        <div class="status">Added Successfully</div>
+      </div>
     </div>
-    <script src="/static/js/script.js"></script>
   </body>
 </html>
