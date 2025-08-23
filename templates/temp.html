@@ -83,7 +83,7 @@
         border: 1px solid #000;
       }
 
-      .input-box button {
+      .input-box button,.butt {
         padding: 10px 20px;
         border: 1px solid #000;
         background-color: transparent;
@@ -93,7 +93,7 @@
         transition: 0.2s ease;
       }
 
-      .input-box button:hover {
+      .input-box button:hover,.butt:hover {
         background-color: #000;
         color: #fff;
       }
@@ -172,13 +172,15 @@
   <body>
     <nav class="navbar">
       <ul class="nav-list">
-        <li class="nav-item active">Tracker</li>
-        <li class="nav-item">Cluster View</li>
+        <li class="nav-item active t-nav">Tracker</li>
+        <li class="nav-item g-nav">Get Question</li>
+        <li class="nav-item c-nav">Cluster View</li>
+        
         <li class="nav-item">More (Coming Soon)</li>
       </ul>
     </nav>
 
-    <div class="container">
+    <div class="container Tracker-container">
       <h1>Add question link you want to revisit</h1>
       <div class="input-box">
         <input
@@ -197,7 +199,42 @@
     </div>
       
       </div>
+
+    <div class="container Get-container">
+      <h1>Recieve a question link from your Backlog</h1>
+      <button onclick="get_link()" class="butt">Get a question</button>
+      
+      </div>
+
+
+
+
     </div>
+    <script>
+     const navItems=document.querySelectorAll(".nav-item")
+     const containers=document.querySelectorAll(".container")
+     containers.forEach(c => c.style.display = 'none');
+    document.querySelector('.Tracker-container').style.display='flex'
+     navItems.forEach(item => {
+  item.addEventListener("click", () => {
+    navItems.forEach(nav => nav.classList.remove("active"));
+    item.classList.add("active");
+
+    // Hide all containers first
+    containers.forEach(c => c.style.display = "none");
+
+    // Show only the selected container
+    if(item.classList.contains("t-nav")) {
+      document.querySelector(".Tracker-container").style.display = "flex";
+    } else if(item.classList.contains("g-nav")) {
+      document.querySelector(".Get-container").style.display = "flex";
+    } else if(item.classList.contains("c-nav")) {
+      document.querySelector(".Cluster-container").style.display = "flex";
+    }
+  });
+});
+
+    </script>
 
     <script src="/static/js/script.js"></script>
   </body>
