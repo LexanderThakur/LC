@@ -83,12 +83,15 @@ def submit_link(request):
 
 
     data=response.json()
+    try:
+      save_data(data,user,link)
 
-    save_data(data,user,link)
+    except Exception:
+      return JsonResponse({"message":data.get("data").get("question"),"stat":"Already in Backlog"},status=200)
 
     
 
-    return JsonResponse({"message":data.get("data").get("question")},status=200)
+    return JsonResponse({"message":data.get("data").get("question"),"stat":"Added Successfully"},status=200)
 
 
 
