@@ -50,3 +50,17 @@ async function submit_link() {
     console.log("network error");
   }
 }
+
+async function get_link() {
+  try {
+    const response = await fetch("/home/get_link", {
+      method: "GET",
+      headers: { Authorization: localStorage.getItem("session_token") },
+    });
+
+    const result = await response.json();
+    console.log(result);
+  } catch (err) {
+    console.log("network error");
+  }
+}
