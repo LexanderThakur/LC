@@ -83,7 +83,8 @@
         border: 1px solid #000;
       }
 
-      .input-box button,.butt {
+      .input-box button,
+      .butt {
         padding: 10px 20px;
         border: 1px solid #000;
         background-color: transparent;
@@ -93,7 +94,8 @@
         transition: 0.2s ease;
       }
 
-      .input-box button:hover,.butt:hover {
+      .input-box button:hover,
+      .butt:hover {
         background-color: #000;
         color: #fff;
       }
@@ -110,12 +112,17 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
       }
       .question-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+      .Gquestion-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
 
       .question-title {
         font-size: 1.2rem;
@@ -175,7 +182,7 @@
         <li class="nav-item active t-nav">Tracker</li>
         <li class="nav-item g-nav">Get Question</li>
         <li class="nav-item c-nav">Cluster View</li>
-        
+
         <li class="nav-item">More (Coming Soon)</li>
       </ul>
     </nav>
@@ -192,48 +199,38 @@
       </div>
 
       <!-- Placeholder for Question Data -->
-      <div class="question-container">
-      
-      
-
+      <div class="question-container"></div>
     </div>
-      
-      </div>
 
     <div class="container Get-container">
       <h1>Recieve a question link from your Backlog</h1>
       <button onclick="get_link()" class="butt">Get a question</button>
-      
-      </div>
 
-
-
-
+      <div class="Gquestion-container"></div>
     </div>
     <script>
-     const navItems=document.querySelectorAll(".nav-item")
-     const containers=document.querySelectorAll(".container")
-     containers.forEach(c => c.style.display = 'none');
-    document.querySelector('.Tracker-container').style.display='flex'
-     navItems.forEach(item => {
-  item.addEventListener("click", () => {
-    navItems.forEach(nav => nav.classList.remove("active"));
-    item.classList.add("active");
-
-    // Hide all containers first
-    containers.forEach(c => c.style.display = "none");
-
-    // Show only the selected container
-    if(item.classList.contains("t-nav")) {
+      const navItems = document.querySelectorAll(".nav-item");
+      const containers = document.querySelectorAll(".container");
+      containers.forEach((c) => (c.style.display = "none"));
       document.querySelector(".Tracker-container").style.display = "flex";
-    } else if(item.classList.contains("g-nav")) {
-      document.querySelector(".Get-container").style.display = "flex";
-    } else if(item.classList.contains("c-nav")) {
-      document.querySelector(".Cluster-container").style.display = "flex";
-    }
-  });
-});
+      navItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          navItems.forEach((nav) => nav.classList.remove("active"));
+          item.classList.add("active");
 
+          // Hide all containers first
+          containers.forEach((c) => (c.style.display = "none"));
+
+          // Show only the selected container
+          if (item.classList.contains("t-nav")) {
+            document.querySelector(".Tracker-container").style.display = "flex";
+          } else if (item.classList.contains("g-nav")) {
+            document.querySelector(".Get-container").style.display = "flex";
+          } else if (item.classList.contains("c-nav")) {
+            document.querySelector(".Cluster-container").style.display = "flex";
+          }
+        });
+      });
     </script>
 
     <script src="/static/js/script.js"></script>

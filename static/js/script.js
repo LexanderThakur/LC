@@ -59,7 +59,37 @@ async function get_link() {
     });
 
     const result = await response.json();
-    console.log(result);
+    let ques = result.message;
+    let temp = ``;
+    for (let i = 0; i < ques.length; i++) {
+      let q = ques[i];
+
+      let topics = [];
+      let topicS = ``;
+      for (let i = 0; i < q.tags.length; i++) {
+        topicS += `<span class="topic-tag">${q.tags[i]}</span>`;
+      }
+
+      temp += `
+    <div class="question-card">
+        <!-- Line 1: Question number + title -->
+        <a href="${q.url}"><div class="question-title">${q.number}. ${q.title}</div></a>
+
+        <!-- Line 2: Difficulty -->
+        <div class="difficulty ${q.difficulty}">${q.difficulty}</div>
+
+        <!-- Line 3: Topics -->
+        <div class="topics">
+          ${topicS}
+        </div>
+
+        
+      </div>
+    
+    `;
+    }
+
+    document.querySelector(".Gquestion-container").innerHTML = temp;
   } catch (err) {
     console.log("network error");
   }

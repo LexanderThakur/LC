@@ -119,11 +119,9 @@ def make_df(user):
     "Biconnected Component"
   ]
 
-  df= pd.DataFrame()
-  for tag in leetcode_tags:
-    df[tag]=0
+  
 
-  user_links=Links.objects.filter(user_email=user).values("tags","title","number","url","difficulty")
+  user_links=Links.objects.filter(user=user).values("tags","title","number","url","difficulty")
 
   rows=[]
 
@@ -137,7 +135,7 @@ def make_df(user):
     row["url"] = link["url"]
     row["difficulty"] = link["difficulty"]
 
-    for t in link[tags]:
+    for t in link["tags"]:
       if t in row:
         row[t]=1
 
@@ -146,20 +144,53 @@ def make_df(user):
   df=pd.DataFrame(rows)
   return df
 
-
+@csrf_exempt
 def get_link(request):
   user=request.user
 
-    if not user:
-        return JsonResponse({"error":"view did not get user"},status=404)
+  if not user:
+    return JsonResponse({"error":"view did not get user"},status=404)
 
     
-    df = make_df(user) 
+  df = make_df(user) 
+  if df.empty:
+    return JsonResponse({"message": [], "stat": "No data to cluster"}, status=200)
 
-    X = df.drop(columns=["title", "number", "url", "difficulty"])
 
-    kmeans=KMeans(n_clusters=5,random_state=42)
-    kmeans.fit(X)
+  X = df.drop(columns=["title", "number", "url", "difficulty"])
 
-    
+  kmeans=KMeans(n_clusters=5,random_state=42,n_init=3)
+  kmeans.fit(X)
+
+  df["cluster"] = kmeans.labels_
+
+
+  count={}
+
+  for index,row in df.iterrows():
+    if row["cluster"] not in count:
+      count[ row["cluster"] ]=0
+    count[ row["cluster"] ]+=1
+
+  densest_cluster = max(count, key=count.get)
+
+  
+
+  ques=[]
+
+  for index,row in df.iterrows():
+    if len(ques)>=3:
+      break
+    if row["cluster"]==densest_cluster:
+      ques.append(row["number"])
+
+
+  res_arr=[]
+  for num in ques:
+    link=Links.objects.filter(number=num).values("title","difficulty","url","tags","number").first()
+    res_arr.append(link)
+
+  return JsonResponse({"message":res_arr},status=200)
+
+
 
