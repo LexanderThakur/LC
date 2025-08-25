@@ -156,6 +156,12 @@ def get_link(request):
   if df.empty:
     return JsonResponse({"message": [], "stat": "No data to cluster"}, status=200)
 
+  if len(df) < 5:
+    row = df.iloc[0]  # pick the first link
+    link = Links.objects.filter(number=row["number"]).values(
+        "title", "difficulty", "url", "tags", "number"
+    ).first()
+    return JsonResponse({"message": [link]}, status=200)
 
   X = df.drop(columns=["title", "number", "url", "difficulty"])
 
@@ -164,6 +170,7 @@ def get_link(request):
 
   df["cluster"] = kmeans.labels_
 
+  
 
   count={}
 
@@ -179,7 +186,7 @@ def get_link(request):
   ques=[]
 
   for index,row in df.iterrows():
-    if len(ques)>=3:
+    if len(ques)>=1:
       break
     if row["cluster"]==densest_cluster:
       ques.append(row["number"])
@@ -194,3 +201,18 @@ def get_link(request):
 
 
 
+
+@csrf_exempt
+def mark_compelete(request):
+  user=request.user
+
+  if not user:
+    return JsonResponse({"error":"view did not get user"},status=404)
+
+  data=json.loads(request.body)
+
+  number=data.get("number")
+
+  Links.objects.filter(user=user,number=number).delete()
+
+  return JsonResponse({"message":"success"},status=200)

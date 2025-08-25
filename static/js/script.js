@@ -60,6 +60,10 @@ async function get_link() {
 
     const result = await response.json();
     let ques = result.message;
+    if (ques.length == 0) {
+      alert("no questions in backlog");
+      return;
+    }
     let temp = ``;
     for (let i = 0; i < ques.length; i++) {
       let q = ques[i];
@@ -71,6 +75,7 @@ async function get_link() {
       }
 
       temp += `
+      <br>
       <div class="question-card">
   <a href="${q.url}" target="_blank" style="text-decoration: none; color: inherit;">
     
@@ -79,6 +84,7 @@ async function get_link() {
       <div class="topics">${topicS}</div>
     
   </a>
+  <button onclick="mark_compelete(${q.number})" class="butt">Mark Compeleted</button>
   </div>
 `;
     }
@@ -86,5 +92,29 @@ async function get_link() {
     document.querySelector(".Gquestion-container").innerHTML = temp;
   } catch (err) {
     console.log("network error");
+  }
+}
+
+async function mark_compelete(number) {
+  try {
+    const response = await fetch("/home/mark_compelete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("session_token"),
+      },
+      body: JSON.stringify({
+        number: number,
+      }),
+    });
+
+    const result = await response.json();
+    console.log(result);
+
+    if (result.message == "success") {
+      document.querySelector(".Gquestion-container").innerHTML = ``;
+    }
+  } catch (err) {
+    alert("network error");
   }
 }
