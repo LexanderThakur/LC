@@ -71,22 +71,16 @@ async function get_link() {
       }
 
       temp += `
-    <div class="question-card">
-        <!-- Line 1: Question number + title -->
-        <a href="${q.url}"><div class="question-title">${q.number}. ${q.title}</div></a>
-
-        <!-- Line 2: Difficulty -->
-        <div class="difficulty ${q.difficulty}">${q.difficulty}</div>
-
-        <!-- Line 3: Topics -->
-        <div class="topics">
-          ${topicS}
-        </div>
-
-        
-      </div>
+      <div class="question-card">
+  <a href="${q.url}" target="_blank" style="text-decoration: none; color: inherit;">
     
-    `;
+      <div class="question-title">${q.number}. ${q.title}</div>
+      <div class="difficulty ${q.difficulty}">${q.difficulty}</div>
+      <div class="topics">${topicS}</div>
+    
+  </a>
+  </div>
+`;
     }
 
     document.querySelector(".Gquestion-container").innerHTML = temp;
